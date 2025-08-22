@@ -10,12 +10,16 @@ import { CategoryScale } from 'chart.js';
 import { useEffect, useState } from 'react';
 Chart.register(CategoryScale);
 
+interface ChartDataItem {
+	temp: number;
+	label: string;
+}
+
 export default function CityDetail() {
 	const { id } = useParams();
 	const { cities } = useLocalStorage();
 	const city = cities.find((c) => c.name === decodeURIComponent(id as string));
-	const [labels, setLabels] = useState<string[]>([]);
-	const [temps, setTemps] = useState<number[]>([]);
+	const [chartData, setChartData] = useState<ChartDataItem[]>([]);
 
 	const { data, isLoading } = useQuery({
 		queryKey: ['hourly', city?.name],
@@ -25,10 +29,10 @@ export default function CityDetail() {
 
 	useEffect(() => {
 		if (!data) return;
-		const newLabels = data.list.map((item: { dt_txt: string }) => item.dt_txt.slice(5, 16));
-		const newTemps = data.list.map((item: { main: { temp: number } }) => Math.floor(item.main.temp));
-		setLabels(newLabels);
-		setTemps(newTemps);
+		const newChartData = data.list.reduce((item: { dt_txt: string; main: { temp: number } }, acc: ChartDataItem[]) => {
+			acc.push({ temp: Math.floor(item.main.temp), label: item.dt_txt.slice(5, 16) });
+		}, []);
+		setChartData(newChartData);
 	}, [data]);
 
 	if (!city) return <p>City not found!</p>;
@@ -49,7 +53,12 @@ export default function CityDetail() {
 				<li>Description: {data.list[0].weather[0].description}</li>
 				<li>Wind speed: {data.list[0].wind.speed}</li>
 			</ul>
-			<Bar data={{ labels, datasets: [{ label: 'Temperature', data: temps }] }} />
+			<Bar
+				data={{
+					labels: chartData.map((item) => item.label),
+					datasets: [{ label: 'Temperature', data: chartData.map((item) => item.temp) }],
+				}}
+			/>
 		</div>
 	);
 }
