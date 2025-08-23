@@ -6,7 +6,7 @@ import CityCard from '@/components/CityCard/CityCard';
 import AddCityForm from '@/components/AddCityForm/AddCityForm';
 
 export default function Home() {
-	const { cities, setCities } = useLocalStorage();
+	const { cities, setCities, hydrated } = useLocalStorage();
 
 	const addCity = async (nameToAdd: string) => {
 		const geo = await geocodeCity(nameToAdd);
@@ -23,9 +23,7 @@ export default function Home() {
 			<h1 className={styles.title}>Weather App</h1>
 			<div className={styles.cardsList}>
 				<AddCityForm onAdd={addCity} />
-				{cities.map((c) => (
-					<CityCard city={c} key={c.name} onRemove={removeCity} />
-				))}
+				{hydrated && cities.map((c) => <CityCard city={c} key={c.name} onRemove={removeCity} />)}
 			</div>
 		</div>
 	);

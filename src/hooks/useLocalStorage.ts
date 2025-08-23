@@ -22,15 +22,19 @@ export function useLocalStorage() {
 		}
 		return initialValue;
 	});
+	const [hydrated, setHydrated] = useState(false);
 
 	useEffect(() => {
 		const stored = localStorage.getItem('cities');
 		if (stored) setCities(JSON.parse(stored));
+		setHydrated(true);
 	}, []);
 
 	useEffect(() => {
-		localStorage.setItem('cities', JSON.stringify(cities));
-	}, [cities]);
+		if (hydrated) {
+			localStorage.setItem('cities', JSON.stringify(cities));
+		}
+	}, [cities, hydrated]);
 
-	return { cities, setCities };
+	return { cities, setCities, hydrated };
 }
