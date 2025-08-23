@@ -8,7 +8,7 @@ import { Bar } from 'react-chartjs-2';
 import { CategoryScale } from 'chart.js';
 import { useEffect, useState } from 'react';
 import styles from './page.module.scss';
-import { Button } from '@mui/material';
+import { Button, Skeleton } from '@mui/material';
 
 Chart.register(CategoryScale);
 
@@ -41,9 +41,45 @@ export default function CityDetail() {
 		setChartData(newChartData);
 	}, [data]);
 
-	if (!city) return <p>City not found!</p>;
+	if (!city) return <p>Oops, city not found, try another one!</p>;
 
-	if (isLoading) return <p>Loading...</p>;
+	if (isLoading)
+		return (
+			<div className={styles.skeletonContainer}>
+				<h1 className={styles.skeletonTitle}>
+					<Skeleton variant='rounded' width={200} height={34} />
+				</h1>
+				<ul className={styles.skeletonList}>
+					<li>
+						<Skeleton variant='rounded' width={200} height={20} />
+					</li>
+					<li>
+						<Skeleton variant='rounded' width={200} height={20} />
+					</li>
+					<li>
+						<Skeleton variant='rounded' width={200} height={20} />
+					</li>
+					<li>
+						<Skeleton variant='rounded' width={200} height={20} />
+					</li>
+					<li>
+						<Skeleton variant='rounded' width={200} height={20} />
+					</li>
+					<li>
+						<Skeleton variant='rounded' width={200} height={20} />
+					</li>
+					<li>
+						<Skeleton variant='rounded' width={200} height={20} />
+					</li>
+					<li>
+						<Skeleton variant='rounded' width={200} height={20} />
+					</li>
+				</ul>
+				<div className={styles.skeletonButton}>
+					<Skeleton variant='rounded' width={150} height={40} />
+				</div>
+			</div>
+		);
 
 	return (
 		<div>

@@ -4,6 +4,7 @@ import styles from './page.module.scss';
 import { geocodeCity } from '@/api/api';
 import CityCard from '@/components/CityCard/CityCard';
 import AddCityForm from '@/components/AddCityForm/AddCityForm';
+import { LoadingSpinner } from '@/components/LoadingSpinner/LoadingSpinner';
 
 export default function Home() {
 	const { cities, setCities, hydrated } = useLocalStorage();
@@ -21,10 +22,16 @@ export default function Home() {
 	return (
 		<div>
 			<h1 className={styles.title}>Weather App</h1>
-			<div className={styles.cardsList}>
-				<AddCityForm onAdd={addCity} />
-				{hydrated && cities.map((c) => <CityCard city={c} key={c.name} onRemove={removeCity} />)}
-			</div>
+			{hydrated ? (
+				<div className={styles.cardsList}>
+					<AddCityForm onAdd={addCity} />
+					{cities.map((c) => (
+						<CityCard city={c} key={c.name} onRemove={removeCity} />
+					))}
+				</div>
+			) : (
+				<LoadingSpinner />
+			)}
 		</div>
 	);
 }
