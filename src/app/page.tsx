@@ -20,11 +20,11 @@ export default function Home() {
 
 	return (
 		<div>
-			<h1>Weather</h1>
-			<AddCityForm onAdd={addCity} />
-			<div style={{ display: 'grid', gap: '1rem' }}>
+			<h1 className={styles.title}>Weather App</h1>
+			<div className={styles.cardsList}>
+				<AddCityForm onAdd={addCity} />
 				{cities.map((c) => (
-					<CityCard key={c.name} city={c} onRemove={removeCity} />
+					<CityCard city={c} key={c.name} onRemove={removeCity} />
 				))}
 			</div>
 		</div>

@@ -1,0 +1,38 @@
+.title {
+	font-size: 30px;
+	font-weight: bold;
+	color: #333;
+	margin-bottom: 30px;
+	margin-top: 30px;
+}
+
+.list {
+	list-style: none;
+	padding: 0;
+	margin-bottom: 30px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 10px;
+}
+
+.chartInnerContainer {
+	height: 500px;
+
+	@media screen and (max-width: 768px) {
+		height: 300px;
+		width: 1110px;
+	}
+}
+
+.chart {
+	width: 100%;
+	height: 500px;
+	margin-top: 20px;
+
+	@media screen and (max-width: 768px) {
+		overflow-x: scroll;
+		overflow-y: hidden;
+		height: 310px;
+	}
+}

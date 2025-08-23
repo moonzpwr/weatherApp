@@ -15,7 +15,13 @@ const initialValue = [
 ];
 
 export function useLocalStorage() {
-	const [cities, setCities] = useState<ICity[]>(initialValue);
+	const [cities, setCities] = useState<ICity[]>(() => {
+		if (typeof window !== 'undefined') {
+			const stored = localStorage.getItem('cities');
+			return stored ? JSON.parse(stored) : initialValue;
+		}
+		return initialValue;
+	});
 
 	useEffect(() => {
 		const stored = localStorage.getItem('cities');

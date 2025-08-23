@@ -2,13 +2,18 @@
 import { getHourly } from '@/api/api';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useQuery } from '@tanstack/react-query';
-import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import Chart from 'chart.js/auto';
+import { Chart, defaults } from 'chart.js/auto';
 import { Bar } from 'react-chartjs-2';
 import { CategoryScale } from 'chart.js';
 import { useEffect, useState } from 'react';
+import styles from './page.module.scss';
+import { Button } from '@mui/material';
+
 Chart.register(CategoryScale);
+
+defaults.maintainAspectRatio = false;
+defaults.responsive = true;
 
 interface ChartDataItem {
 	temp: number;
@@ -29,8 +34,9 @@ export default function CityDetail() {
 
 	useEffect(() => {
 		if (!data) return;
-		const newChartData = data.list.reduce((item: { dt_txt: string; main: { temp: number } }, acc: ChartDataItem[]) => {
+		const newChartData = data.list.reduce((acc: ChartDataItem[], item: { dt_txt: string; main: { temp: number } }) => {
 			acc.push({ temp: Math.floor(item.main.temp), label: item.dt_txt.slice(5, 16) });
+			return acc;
 		}, []);
 		setChartData(newChartData);
 	}, [data]);
@@ -41,24 +47,46 @@ export default function CityDetail() {
 
 	return (
 		<div>
-			<h1>Details: {city.name}</h1>
-			<Link href='/'>Back</Link>
-			<ul>
-				<li>Temperature: {Math.floor(data.list[0].main.temp)}°C </li>
-				<li>Feels like: {Math.floor(data.list[0].main.feels_like)}°C</li>
-				<li>Temperature min: {Math.floor(data.list[0].main.temp_min)}°C</li>
-				<li>Temperature max: {Math.floor(data.list[0].main.temp_max)}°C</li>
-				<li>Pressure: {data.list[0].main.pressure}</li>
-				<li>Humidity: {data.list[0].main.humidity}</li>
-				<li>Description: {data.list[0].weather[0].description}</li>
-				<li>Wind speed: {data.list[0].wind.speed}</li>
+			<h1 className={styles.title}>{city.name}</h1>
+			<ul className={styles.list}>
+				<li>
+					Temperature: <b>{Math.floor(data.list[0].main.temp)}°C</b>
+				</li>
+				<li>
+					Feels like: <b>{Math.floor(data.list[0].main.feels_like)}°C</b>
+				</li>
+				<li>
+					Temperature min: <b>{Math.floor(data.list[0].main.temp_min)}°C</b>
+				</li>
+				<li>
+					Temperature max: <b>{Math.floor(data.list[0].main.temp_max)}°C</b>
+				</li>
+				<li>
+					Pressure: <b>{data.list[0].main.pressure}</b>
+				</li>
+				<li>
+					Humidity: <b>{data.list[0].main.humidity}</b>
+				</li>
+				<li>
+					Description: <b>{data.list[0].weather[0].description}</b>
+				</li>
+				<li>
+					Wind speed: <b>{data.list[0].wind.speed}</b>
+				</li>
 			</ul>
-			<Bar
-				data={{
-					labels: chartData.map((item) => item.label),
-					datasets: [{ label: 'Temperature', data: chartData.map((item) => item.temp) }],
-				}}
-			/>
+			<Button href='/' variant='contained'>
+				Back to home
+			</Button>
+			<div className={styles.chart}>
+				<div className={styles.chartInnerContainer}>
+					<Bar
+						data={{
+							labels: chartData.map((item) => item.label),
+							datasets: [{ label: 'Temperature', data: chartData.map((item) => item.temp) }],
+						}}
+					/>
+				</div>
+			</div>
 		</div>
 	);
 }

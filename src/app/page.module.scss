@@ -1,0 +1,61 @@
+@use 'sass:map';
+
+$breakpoints: (
+	sm: 576px,
+	md: 768px,
+	lg: 992px,
+	xl: 1200px,
+	xxl: 1400px,
+);
+
+$container-max-widths: (
+	sm: 540px,
+	md: 720px,
+	lg: 960px,
+	xl: 1140px,
+	xxl: 1320px,
+);
+
+@mixin respond-to($breakpoint) {
+	$breakpoint-value: map.get($breakpoints, $breakpoint);
+
+	@if $breakpoint-value {
+		@media (min-width: $breakpoint-value) {
+			@content;
+		}
+	}
+}
+
+.container {
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 16px;
+	padding-right: 16px;
+	text-align: center;
+	overflow: hidden;
+	@each $bp, $max-width in $container-max-widths {
+		@include respond-to($bp) {
+			max-width: $max-width;
+		}
+	}
+}
+
+.title {
+	font-size: 30px;
+	font-weight: bold;
+	color: #333;
+	margin-bottom: 30px;
+	margin-top: 30px;
+}
+
+.cardsList {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+
+	@media screen and (max-width: 768px) {
+		justify-content: center;
+	}
+}
