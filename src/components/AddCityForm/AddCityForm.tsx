@@ -28,6 +28,7 @@ export default function AddCityForm({ onAdd }: Props) {
 						variant='filled'
 						value={city}
 						onChange={(e) => setCity(e.target.value)}
+						data-testid='city-add-input'
 					/>
 				</CardContent>
 				<CardActions className={styles.actions}>

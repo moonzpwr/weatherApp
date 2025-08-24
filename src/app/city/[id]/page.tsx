@@ -47,36 +47,36 @@ export default function CityDetail() {
 		return (
 			<div className={styles.skeletonContainer}>
 				<h1 className={styles.skeletonTitle}>
-					<Skeleton variant='rounded' width={200} height={34} />
+					<Skeleton variant='rounded' width={200} height={34} data-testid='skeleton' />
 				</h1>
 				<ul className={styles.skeletonList}>
 					<li>
-						<Skeleton variant='rounded' width={200} height={20} />
+						<Skeleton variant='rounded' width={200} height={20} data-testid='skeleton' />
 					</li>
 					<li>
-						<Skeleton variant='rounded' width={200} height={20} />
+						<Skeleton variant='rounded' width={200} height={20} data-testid='skeleton' />
 					</li>
 					<li>
-						<Skeleton variant='rounded' width={200} height={20} />
+						<Skeleton variant='rounded' width={200} height={20} data-testid='skeleton' />
 					</li>
 					<li>
-						<Skeleton variant='rounded' width={200} height={20} />
+						<Skeleton variant='rounded' width={200} height={20} data-testid='skeleton' />
 					</li>
 					<li>
-						<Skeleton variant='rounded' width={200} height={20} />
+						<Skeleton variant='rounded' width={200} height={20} data-testid='skeleton' />
 					</li>
 					<li>
-						<Skeleton variant='rounded' width={200} height={20} />
+						<Skeleton variant='rounded' width={200} height={20} data-testid='skeleton' />
 					</li>
 					<li>
-						<Skeleton variant='rounded' width={200} height={20} />
+						<Skeleton variant='rounded' width={200} height={20} data-testid='skeleton' />
 					</li>
 					<li>
-						<Skeleton variant='rounded' width={200} height={20} />
+						<Skeleton variant='rounded' width={200} height={20} data-testid='skeleton' />
 					</li>
 				</ul>
 				<div className={styles.skeletonButton}>
-					<Skeleton variant='rounded' width={150} height={40} />
+					<Skeleton variant='rounded' width={150} height={40} data-testid='skeleton' />
 				</div>
 			</div>
 		);
