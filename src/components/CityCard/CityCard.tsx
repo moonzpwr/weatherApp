@@ -13,12 +13,12 @@ interface Props {
 }
 
 export default function CityCard({ city, onRemove }: Props) {
-	const { data, refetch, isLoading } = useQuery({
+	const { data, refetch, isLoading, isFetching } = useQuery({
 		queryKey: ['weather', city.name],
 		queryFn: () => getWeather(city.lat, city.lon),
 	});
 
-	if (isLoading) {
+	if (isLoading || isFetching) {
 		return <Skeleton variant='rounded' width={200} height={200} />;
 	}
 
